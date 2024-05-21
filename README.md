@@ -9,7 +9,7 @@
 ![Карта](./img/graph.jpg)
 
 **0) Зададим граф в виде матрицы смежности** 
-```
+```cpp
 const int INF = 10000; // для инициализации
 
 vector<vector<int>> graf = {
@@ -24,14 +24,14 @@ vector<vector<int>> graf = {
 INF - означает, что ребер между выбранными вершинами нет, обозначим за 10 000, т.к. на этапе нахождения суммы маршрута (оценка приспособленности индивида - фитнес функция), индивид использующий несуществующее ребро будет заметно проигрывать индивиду, использующему только допустимые ребра.
 
 **1) Зададим константы для работы алгоритма, подобранные эмпирически** 
-```
+```cpp
 const double mutationProbability = 0.1; // Вероятность мутации
 const double crossoverProbability = 0.8; // Вероятность скрещивания
 int populationSize = 70; // Размер популяции
 int numEpochs = 10; // Количество эпох эволюции
 ```
 **2) Создание популяции**
-```
+```cpp
 // Cоздание случайной популяции
 vector<vector<int>> createRandomPopulation(int populationSize, int numVertices) {
     vector<vector<int>> population;
@@ -50,19 +50,19 @@ vector<vector<int>> createRandomPopulation(int populationSize, int numVertices) 
 Каждый индивид будет представлен как случайно сгенерированный маршрут (стартовую вершину 0 не меняем)
 
 Например:
-```
+```cpp
 vector<int> route[0] = [0, 5, 2, 3, 4, 1]
 vector<int> route[1] = [0, 4, 3, 2, 4, 1]
 ...
 vector<int> route[n] = [0, 1, 4, 3, 5, 2]
 ```
 Таким образом популяция - это двумерный вектор, хранящий в себе сгенерированные рандомно маршруты
-```
+```cpp
  vector<vector<int>> population
 ```
 
 **3) Фитнес функция**
-```
+```cpp
 // Фитнес ф-ция для расчета стоимости маршрута
 int calculateRouteWeight(const vector<int>& route) {
     int weight = 0;
@@ -85,7 +85,7 @@ ___
 Суть турнирного отбора заключается в случайном выборе нескольких индивидов (в дальнейшем претендентов) и уже среди претендентов с помощью фитнес функции определяется родитель, который даст гены потомкам в операции скрещивания.
 
 Этот турнирный отбор будет проводиться до тех пор, пока число потенциальных родителей не станет равным числу исходной популяции
-```
+```cpp
 // Турнирный отбор
 vector<vector<int>> tournamentSelection(const vector<vector<int>>& population, int tournamentSize) {
     vector<vector<int>> selectedIndividuals;
@@ -114,7 +114,7 @@ vector<vector<int>> tournamentSelection(const vector<vector<int>>& population, i
 Это двуточечное скрещивание (одноточечное дважды в двух разрезах)
 
 Причем каждый потомок должен быть уникальным набором цифром, учтем это с помощью неупорядоченного множества
-```
+```cpp
 // Скрещивание двух индивидов с учетом уникальности генов
 vector<int> crossover(const vector<int>& parent1, const vector<int>& parent2) {
     random_device rd;
@@ -169,7 +169,7 @@ vector<int> crossover(const vector<int>& parent1, const vector<int>& parent2) {
 }
 ```
 Ф-ция для скрещивания всей популяции
-```
+```cpp
 // Функция для скрещивания популяции
 vector<vector<int>> crossoverPopulation(const vector<vector<int>>& population) {
     vector<vector<int>> newPopulation;
@@ -202,7 +202,7 @@ vector<vector<int>> crossoverPopulation(const vector<vector<int>>& population) {
 **6) Мутация**
 
 ![Иллюстрация мутации](./img/mutation.jpg)
-```
+```cpp
 // Функция для мутации одного индивида
 void mutate(vector<int>& individual) {
     random_device rd;
